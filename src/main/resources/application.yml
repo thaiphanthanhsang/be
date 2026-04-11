@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/savy-snap
+    url: jdbc:postgresql://postgres.railway.internal:5432/railway
     username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:123456}
+    password: ${DB_PASSWORD:LbZaraddXYcHWLXQnYyPTkCFgCTIwxXm}
     driver-class-name: org.postgresql.Driver
 
   jpa:
