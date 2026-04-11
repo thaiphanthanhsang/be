@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/savy-snap
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:123456}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+#        format_sql: true
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+cloudinary:
+  cloud-name: "diat0h0nq"
+  api-key: "194497629473197"
+  api-secret: ${CLOUDINARY_SECRET:zSu2F0s1DPsaR8rbudBIyiLXVKo}
+
+jwt:
+  signerKey: ${JWT_SIGNER_KEY:+V6R5Wp2Z8uN9bX4kR1vM7aQ3sY6hJ9pL0oC2nF5mE8=}
+  valid-duration: 3600
+  refreshable-duration: 36000
