@@ -1,17 +1,18 @@
 package com.backend.savysnap.configuration;
 
 import com.backend.savysnap.entity.User;
+import com.backend.savysnap.enums.RoleEnum;
 import com.backend.savysnap.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.Set;
 
 @Slf4j
 @Component
@@ -21,14 +22,26 @@ public class ApplicationInitConfig implements ApplicationRunner {
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
 
+    @NonFinal
+    @Value("${app.admin.username}")
+    String adminUsername;
+    
+    @NonFinal
+    @Value("${app.admin.password}")
+    String adminPassword;
+
+    @NonFinal
+    @Value("${app.admin.email}")
+    String adminEmail;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        if (!userRepository.existsByUsername("admin")) {
+        if (!userRepository.existsByUsername(adminUsername)) {
             User admin = User.builder()
-                    .username("admin")
-                    .password(passwordEncoder.encode("admin"))
-                    .email("admin@gmail.com")
-                    .roles(Set.of("ADMIN"))
+                    .username(adminUsername)
+                    .password(passwordEncoder.encode(adminPassword))
+                    .email(adminEmail)
+                    .role(RoleEnum.ADMIN)
                     .build();
 
             userRepository.save(admin);

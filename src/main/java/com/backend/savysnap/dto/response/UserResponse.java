@@ -1,5 +1,6 @@
 package com.backend.savysnap.dto.response;
 
+import com.backend.savysnap.enums.RoleEnum;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -14,7 +15,9 @@ public class UserResponse {
     String id;
     String username;
     String email;
+    String fullName;
     Long totalPayment;
-    String imageUrl;
+    String avatarUrl;
     List<SavingNoteResponse> savingNotes;
+    RoleEnum role;
 }

@@ -1,10 +1,12 @@
 package com.backend.savysnap.controller;
 
 import com.backend.savysnap.dto.request.AuthenticationRequest;
+import com.backend.savysnap.dto.request.GoogleLoginRequest;
 import com.backend.savysnap.dto.request.UserCreateRequest;
 import com.backend.savysnap.dto.response.ApiResponse;
 import com.backend.savysnap.dto.response.AuthenticationResponse;
 import com.backend.savysnap.dto.response.UserResponse;
+import com.backend.savysnap.enums.RoleEnum;
 import com.backend.savysnap.service.AuthenticationService;
 import com.backend.savysnap.service.UserService;
 import jakarta.validation.Valid;
@@ -12,7 +14,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,13 +33,16 @@ public class AuthenticationController {
     public ApiResponse<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         return ApiResponse.<AuthenticationResponse>builder()
                 .result(authenticationService.authenticate(request))
+                .message("Login Successfully")
                 .build();
     }
 
     @PostMapping("/register")
     public ApiResponse<UserResponse> register(@RequestBody @Valid UserCreateRequest request) {
+        request.setRole(RoleEnum.USER.name());
         return ApiResponse.<UserResponse>builder()
                 .result(userService.createUser(request))
+                .message("Register Successfully")
                 .build();
     }
 
@@ -47,6 +51,15 @@ public class AuthenticationController {
     public ApiResponse<UserResponse> create(@RequestBody @Valid UserCreateRequest request) {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.createUser(request))
+                .message("Create Successfully")
+                .build();
+    }
+
+    @PostMapping("/google")
+    public ApiResponse<AuthenticationResponse> googleLogin(@RequestBody GoogleLoginRequest request) {
+        return ApiResponse.<AuthenticationResponse>builder()
+                .result(authenticationService.authenticateWithGoogle(request))
+                .message("Google Login Successfully")
                 .build();
     }
 }
